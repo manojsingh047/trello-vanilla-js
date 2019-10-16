@@ -1,7 +1,0 @@
-
-const renderPosts = (posts) => {
-  
-  
-  
-  
-};

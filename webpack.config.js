@@ -8,32 +8,21 @@ module.exports = {
         use: "babel-loader"
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: "file-loader"
-      },
-      {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"] // It's like a pipeline
       }
     ]
   },
   entry: {
-    index: './src/index.js',
-    contact: './src/contact/contact.js',
+    index: "./src/index.js"
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       inject: true,
-      chunks: ["index"],      //picks from above mentioned entry key of object
+      chunks: ["index"], //picks from above mentioned entry key of object
       filename: "index.html"
-    }),
-    new HtmlWebpackPlugin({
-      template: "./src/contact/contact.html",
-      inject: true,
-      chunks: ["contact"],
-      filename: "contact.html"
-    }),
+    })
   ],
   devServer: {
     //optional

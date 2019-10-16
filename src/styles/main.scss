@@ -1,41 +1,18 @@
-// #myMemes {
-//   text-align: center;
-//   margin: auto auto;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid green;
+}
 
-//   h1 {
-//     font-family: Arial, Helvetica, sans-serif;
-//     color: #333;
-//   }
-
-//   img {
-//     border-radius: 16px;
-//     padding: 8px;
-//     border: 1px solid #aaa;
-//     box-shadow: 2px 2px 1px #eee;
-//     cursor: pointer;
-//   }
-// }
-
-header {
+.boards-container {
   display: flex;
-  flex-basis: 0;
   align-items: center;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+  flex-direction: row;
 
-  div.header-item {
-    cursor: pointer;
+  .board {
     flex-grow: 1;
+    flex-basis: 0;
     text-align: center;
-  }
-
-  div.header-item span {
-    height: 40px;
-    line-height: 40px;
-    display: inline-block;
-  }
-
-  div.header-item.active span {
-    border-bottom: 2px solid;
-    color: rgb(1, 185, 185);
   }
 }
