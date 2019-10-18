@@ -8,21 +8,34 @@ const setupView = () => {
   todosService.postDefaultTodos(DEFAULT_TODOS);
   const appElement = document.getElementById("app");
   appElement.innerHTML = getAppSkeleton();
+  renderForm();
   renderDefaultTodos();
+};
+
+const renderForm = () => {
+  const boards = document.querySelectorAll(".board");
+  for (let i = 0; i < boards.length; i++) {
+    const formNode = getTodoForm(boards[i].id);
+    let insertBefore = null;
+    for (let j = 0; j < boards[i].children.length; j++) {
+      if (boards[i].children[j].className === "todos") {
+        insertBefore = boards[i].children[j];
+        break;
+      }
+    }
+    boards[i].insertBefore(formNode, insertBefore);
+  }
 };
 
 const renderDefaultTodos = () => {
   const todos = todosService.getAllTodos();
-
   todos.forEach(todo => {
     renderTodo(todo);
   });
 };
 
 const renderTodo = todo => {
-  console.log(todo);
   const board = getBoardNode(todo.state);
-  console.log(board);
   const todoNode = createTodoNode(todo);
   board.appendChild(todoNode);
 };
@@ -32,7 +45,7 @@ const createTodoNode = todo => {
   todoNode.className = "todo";
   todo.id = todo.id;
 
-  const todoTitle = document.createElement("div");
+  const todoTitle = document.createElement("h4");
   todoTitle.className = "todo-title";
   todoTitle.innerText = todo.title;
 
@@ -59,12 +72,12 @@ const getBoardNode = state => {
 };
 
 const getAppSkeleton = () => {
-  let skeletonStr = `<section class="boards-container">`;
+  let skeletonStr = `<header></header><section class="boards-container">`;
 
   const boards = BOARDS.reduce((acc, board) => {
     const defaultClass = board.isDefault ? "default" : "";
     acc += `<div id="${board.id}" class="board ${defaultClass}">
-      ${board.title}
+        <h3 class='board-title'>${board.title}</h3>
         <div class="todos"></div>
       </div>`;
     return acc;
@@ -73,6 +86,38 @@ const getAppSkeleton = () => {
   skeletonStr += boards;
   skeletonStr += `</section>`;
   return skeletonStr;
+};
+
+const getTodoForm = id => {
+  const form = document.createElement("form");
+  form.className = "todo-form";
+  form.setAttribute("formBoard", id);
+  form.setAttribute("action", "#");
+  form.addEventListener("submit", todosService.todoFormSubmit);
+
+  const textIp = document.createElement("input");
+  textIp.setAttribute("type", "text");
+  textIp.setAttribute("name", "title");
+  textIp.setAttribute("placeholder", "Enter Title");
+  textIp.setAttribute("required", "");
+  textIp.setAttribute("minLength", 1);
+
+  const descIp = document.createElement("input");
+  descIp.setAttribute("type", "text");
+  descIp.setAttribute("name", "description");
+  descIp.setAttribute("placeholder", "Enter Description");
+  descIp.setAttribute("required", "");
+  descIp.setAttribute("minLength", 1);
+
+  const submit = document.createElement("input"); //input element, Submit button
+  submit.setAttribute("type", "submit");
+  submit.setAttribute("value", "Submit");
+
+  form.appendChild(textIp);
+  form.appendChild(descIp);
+  form.appendChild(submit);
+
+  return form;
 };
 
 export { setupView };

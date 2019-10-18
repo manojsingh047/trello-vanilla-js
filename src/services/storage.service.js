@@ -12,4 +12,8 @@ const initStorageData = () => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
 };
 
-export { getData, postData, initStorageData };
+const clearAll = () => {
+  window.localStorage.clear();
+};
+
+export { getData, postData, initStorageData, clearAll };

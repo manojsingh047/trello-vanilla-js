@@ -2,17 +2,45 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: 1px solid green;
+  // border: 1px solid green;
 }
-
+body {
+  font-size: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#app {
+  font-size: 1.2rem;
+}
+header {
+  min-height: 50px;
+  border: 2px solid #000;
+}
 .boards-container {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex-direction: row;
+  min-height: calc(100vh - 80px);
 
   .board {
     flex-grow: 1;
     flex-basis: 0;
     text-align: center;
+    text-align: center;
+    border: 2px solid #fff;
+    box-shadow: 3px 1px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    form {
+      border-bottom: 2px solid gray;
+      padding: 8px 0;
+    }
+    .board-title {
+      border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+      padding: 6px 0;
+    }
+    .todo {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 6px 0;
+    }
   }
 }
