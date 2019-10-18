@@ -1,31 +1,31 @@
+const STATE_MAP = {
+  DEV: "DEV",
+  QA: "QA",
+  RELEASED: "RELEASED"
+};
+
 const BOARDS = [
   {
-    id: "dev",
+    id: STATE_MAP.DEV,
     title: "DEVELOPMENT",
     isDefault: true
   },
   {
-    id: "qa",
+    id: STATE_MAP.QA,
     title: "QA",
     isDefault: false
   },
   {
-    id: "released",
+    id: STATE_MAP.RELEASED,
     title: "RELEASED",
     isDefault: false
   }
 ];
 
 const PRIOTITY_MAP = {
-  LOW: 0,
-  MEDIUM: 1,
-  HIGH: 2
-};
-
-const STATE_MAP = {
-  DEV: 0,
-  QA: 1,
-  RELEASED: 2
+  LOW: "LOW",
+  MEDIUM: "MEDIUM",
+  HIGH: "HIGH"
 };
 
 const LOCAL_STORAGE_KEY = "trello-clone-data";
