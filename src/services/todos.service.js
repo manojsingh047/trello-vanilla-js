@@ -1,5 +1,6 @@
 import * as localStorageService from "./storage.service";
-import { LOCAL_STORAGE_KEY, STATE_MAP } from "../store/config";
+import { LOCAL_STORAGE_KEY, STATE_MAP, PRIOTITY_MAP } from "../store/config";
+import { todo } from "../model/todo";
 
 const getAllTodos = () => {
   const storageData = window.localStorage.getItem(LOCAL_STORAGE_KEY) || "";
@@ -27,6 +28,15 @@ const postTodo = todo => {
   localStorageService.postData(JSON.stringify(todos));
 };
 
+const getTodoObj = ({ title, description, state, priority = 1 }) => {
+  // console.log("title", title);
+  // console.log("title", description);
+  // console.log("title", state);
+  console.log("priority", priority);
+
+  return new todo(null, title, description, state, priority);
+};
+
 const clearAllTodos = () => {
   localStorageService.clearAll();
 };
@@ -50,9 +60,15 @@ const todoFormSubmit = event => {
     console.log("Mandatory data missing.");
     return;
   }
-  console.log(event);
-  console.log(title);
-  console.log(desc);
+  const todo = getTodoObj({
+    title: title,
+    description: desc,
+    state: formBoard,
+    priority: PRIOTITY_MAP.HIGH
+  });
+  console.log("todo", todo);
+
+  postTodo(todo);
 };
 
 export { getAllTodos, getTodo, postDefaultTodos, todoFormSubmit };
