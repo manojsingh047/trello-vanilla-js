@@ -2,14 +2,28 @@ import "../styles/main.scss";
 import { BOARDS, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { DEFAULT_TODOS } from "../store/todos";
 import * as todosService from "../services/todos.service";
+import * as dragService from "../services/drag.service";
 import { create } from "domain";
 
 const setupView = () => {
   todosService.postDefaultTodos(DEFAULT_TODOS);
   const appElement = document.getElementById("app");
   appElement.innerHTML = getAppSkeleton();
-  renderForm();
   renderDefaultTodos();
+  renderForm();
+  addEventListeners();
+};
+
+const addEventListeners = () => {
+  const todo = document.querySelectorAll(".todo");
+  for (let i = 0; i < todo.length; i++) {
+    todo[i].addEventListener("dragstart", dragService.onDragStart);
+  }
+  const boards = document.querySelectorAll(".board");
+  for (let i = 0; i < boards.length; i++) {
+    boards[i].addEventListener("drop", dragService.onDrop);
+    boards[i].addEventListener("dragover", dragService.onDragOver);
+  }
 };
 
 const renderForm = () => {
@@ -46,8 +60,12 @@ const renderTodo = todo => {
 const createTodoNode = todo => {
   const todoNode = document.createElement("div");
   todoNode.className = "todo";
+  todoNode.id = todo.id;
   todoNode.draggable = true;
-  todo.id = todo.id;
+
+  const todoId = document.createElement("h4");
+  todoId.className = "todo-id";
+  todoId.innerText = `# ${todo.id}`;
 
   const todoTitle = document.createElement("h4");
   todoTitle.className = "todo-title";
@@ -57,6 +75,7 @@ const createTodoNode = todo => {
   todoDesc.className = "todo-todoDesc";
   todoDesc.innerText = todo.description;
 
+  todoNode.appendChild(todoId);
   todoNode.appendChild(todoTitle);
   todoNode.appendChild(todoDesc);
 

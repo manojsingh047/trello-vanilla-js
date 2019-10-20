@@ -77,4 +77,20 @@ const todoFormSubmit = event => {
   postTodo(todo);
 };
 
-export { getAllTodos, getTodo, postDefaultTodos, todoFormSubmit };
+const updateTodoState = ({ id, newState }) => {
+  const todos = getAllTodos().map(todo => {
+    if (todo.id === id) {
+      todo.state = newState;
+    }
+    return todo;
+  });
+  localStorageService.postData(JSON.stringify(todos));
+};
+
+export {
+  getAllTodos,
+  getTodo,
+  postDefaultTodos,
+  todoFormSubmit,
+  updateTodoState
+};
