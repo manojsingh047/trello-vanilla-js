@@ -2,6 +2,7 @@ import * as localStorageService from "./storage.service";
 import { LOCAL_STORAGE_KEY, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { todo } from "../model/todo";
 import { renderTodo } from "../modules/view";
+import * as AppEventEmitter from "../modules/mediator";
 
 const getAllTodos = () => {
   const storageData = window.localStorage.getItem(LOCAL_STORAGE_KEY) || "";
@@ -72,19 +73,28 @@ const todoFormSubmit = event => {
     state: formBoard,
     priority: priority
   });
-  console.log("todo", todo);
+  // console.log("todo", todo);
 
   postTodo(todo);
 };
 
 const updateTodoState = ({ id, newState }) => {
+  let prevState = "";
   const todos = getAllTodos().map(todo => {
     if (todo.id === id) {
+      prevState = todo.state;
       todo.state = newState;
     }
     return todo;
   });
+  const todo = todos.find(todo => todo.id === id);
+
   localStorageService.postData(JSON.stringify(todos));
+  AppEventEmitter.emit(AppEventEmitter.EVENTS.TODO_STATE_UPDATED, {
+    todo,
+    prevState,
+    newState
+  });
 };
 
 export {

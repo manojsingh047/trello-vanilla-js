@@ -3,8 +3,7 @@ import { BOARDS, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { DEFAULT_TODOS } from "../store/todos";
 import * as todosService from "../services/todos.service";
 import * as dragService from "../services/drag.service";
-import { create } from "domain";
-
+import * as AppEventEmitter from "./mediator";
 const setupView = () => {
   todosService.postDefaultTodos(DEFAULT_TODOS);
   const appElement = document.getElementById("app");
@@ -24,6 +23,17 @@ const addEventListeners = () => {
     boards[i].addEventListener("drop", dragService.onDrop);
     boards[i].addEventListener("dragover", dragService.onDragOver);
   }
+
+  AppEventEmitter.on(
+    AppEventEmitter.EVENTS.TODO_STATE_UPDATED,
+    updateTodoState
+  );
+};
+
+const updateTodoState = ({ todo, prevState, newState }) => {
+  console.log(todo);
+  console.log(prevState);
+  console.log(newState);
 };
 
 const renderForm = () => {
