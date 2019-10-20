@@ -123,4 +123,4 @@ const getTodoForm = id => {
   return form;
 };
 
-export { setupView };
+export { setupView, renderTodo };

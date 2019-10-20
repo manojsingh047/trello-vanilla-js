@@ -1,6 +1,7 @@
 import * as localStorageService from "./storage.service";
 import { LOCAL_STORAGE_KEY, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { todo } from "../model/todo";
+import { renderTodo } from "../modules/view";
 
 const getAllTodos = () => {
   const storageData = window.localStorage.getItem(LOCAL_STORAGE_KEY) || "";
@@ -15,17 +16,23 @@ const postDefaultTodos = todos => {
     return;
   }
   localStorageService.initStorageData();
-  todos.forEach(todo => {
-    postTodo(todo);
+  todos.forEach((todo, index) => {
+    todo.id = index + 1;
   });
+  localStorageService.postData(JSON.stringify(todos));
+};
+
+const generateTodoId = todos => {
+  return todos.length + 1;
 };
 
 const postTodo = todo => {
-  const todos = getAllTodos();
-  todo.id = todos.length + 1;
+  const todos = [...getAllTodos()];
+  todo.id = generateTodoId(todos);
   todos.push(todo);
-
   localStorageService.postData(JSON.stringify(todos));
+
+  renderTodo(todo);
 };
 
 const getTodoObj = ({ title, description, state, priority = 1 }) => {
