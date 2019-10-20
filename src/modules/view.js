@@ -1,5 +1,5 @@
 import "../styles/main.scss";
-import { BOARDS } from "../store/config";
+import { BOARDS, STATE_MAP } from "../store/config";
 import { DEFAULT_TODOS } from "../store/todos";
 import * as todosService from "../services/todos.service";
 import { create } from "domain";
@@ -15,6 +15,9 @@ const setupView = () => {
 const renderForm = () => {
   const boards = document.querySelectorAll(".board");
   for (let i = 0; i < boards.length; i++) {
+    if (boards[i].id !== STATE_MAP.DEV) {
+      continue;
+    }
     const formNode = getTodoForm(boards[i].id);
     let insertBefore = null;
     for (let j = 0; j < boards[i].children.length; j++) {
