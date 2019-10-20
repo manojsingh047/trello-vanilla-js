@@ -36,11 +36,6 @@ const postTodo = todo => {
 };
 
 const getTodoObj = ({ title, description, state, priority = 1 }) => {
-  // console.log("title", title);
-  // console.log("title", description);
-  // console.log("title", state);
-  console.log("priority", priority);
-
   return new todo(null, title, description, state, priority);
 };
 
@@ -53,6 +48,7 @@ const todoFormSubmit = event => {
   const formBoard = event.srcElement.getAttribute("formBoard") || STATE_MAP.DEV;
   let title = "";
   let desc = "";
+  let priority = "";
 
   for (let i = 0; i < event.srcElement.length; i++) {
     if (event.srcElement[i].name === "title") {
@@ -61,9 +57,12 @@ const todoFormSubmit = event => {
     if (event.srcElement[i].name === "description") {
       desc = event.srcElement[i].value.trim() || "";
     }
+    if (event.srcElement[i].name === "priority") {
+      priority = event.srcElement[i].value.trim() || "";
+    }
   }
 
-  if (title.length === 0 || desc.length === 0) {
+  if (title.length === 0 || desc.length === 0 || priority.length === 0) {
     console.log("Mandatory data missing.");
     return;
   }
@@ -71,7 +70,7 @@ const todoFormSubmit = event => {
     title: title,
     description: desc,
     state: formBoard,
-    priority: PRIOTITY_MAP.HIGH
+    priority: priority
   });
   console.log("todo", todo);
 

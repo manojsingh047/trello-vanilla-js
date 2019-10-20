@@ -1,5 +1,5 @@
 import "../styles/main.scss";
-import { BOARDS, STATE_MAP } from "../store/config";
+import { BOARDS, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { DEFAULT_TODOS } from "../store/todos";
 import * as todosService from "../services/todos.service";
 import { create } from "domain";
@@ -40,12 +40,13 @@ const renderDefaultTodos = () => {
 const renderTodo = todo => {
   const board = getBoardNode(todo.state);
   const todoNode = createTodoNode(todo);
-  board.appendChild(todoNode);
+  board.prepend(todoNode);
 };
 
 const createTodoNode = todo => {
   const todoNode = document.createElement("div");
   todoNode.className = "todo";
+  todoNode.draggable = true;
   todo.id = todo.id;
 
   const todoTitle = document.createElement("h4");
@@ -112,12 +113,22 @@ const getTodoForm = id => {
   descIp.setAttribute("required", "");
   descIp.setAttribute("minLength", 1);
 
+  const priorityIp = document.createElement("select");
+  priorityIp.setAttribute("name", "priority");
+  const priorites = Object.values(PRIOTITY_MAP);
+  for (let i = 0; i < priorites.length; i++) {
+    let option = document.createElement("option");
+    option.value = priorites[i];
+    option.text = priorites[i];
+    priorityIp.appendChild(option);
+  }
   const submit = document.createElement("input"); //input element, Submit button
   submit.setAttribute("type", "submit");
   submit.setAttribute("value", "Submit");
 
   form.appendChild(textIp);
   form.appendChild(descIp);
+  form.appendChild(priorityIp);
   form.appendChild(submit);
 
   return form;

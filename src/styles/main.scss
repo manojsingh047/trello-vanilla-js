@@ -42,5 +42,9 @@ header {
       border-bottom: 1px solid rgba(0, 0, 0, 0.5);
       padding: 6px 0;
     }
+    .todos {
+      overflow-y: auto;
+      max-height: 71vh;
+    }
   }
 }
