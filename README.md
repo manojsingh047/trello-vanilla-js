@@ -5,3 +5,5 @@
 -- It works on pub-sub event pattern to achieve various operations.
 
 -- It consists of a custom (basic) event emitter.
+
+-- Implements custom debouncing to search items.
