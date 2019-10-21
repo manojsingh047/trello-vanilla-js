@@ -83,6 +83,7 @@ const createTodoNode = todo => {
   todoNode.className = "todo";
   todoNode.id = todo.id;
   todoNode.draggable = true;
+  todoNode.addEventListener("dragstart", dragService.onDragStart);
 
   const todoId = document.createElement("h4");
   todoId.className = "todo-id";
@@ -92,13 +93,18 @@ const createTodoNode = todo => {
   todoTitle.className = "todo-title";
   todoTitle.innerText = todo.title;
 
-  const todoDesc = document.createElement("div");
+  const todoDesc = document.createElement("p");
   todoDesc.className = "todo-todoDesc";
   todoDesc.innerText = todo.description;
+
+  const todoPriority = document.createElement("p");
+  todoPriority.className = "todo-priority";
+  todoPriority.innerText = todo.priority;
 
   todoNode.appendChild(todoId);
   todoNode.appendChild(todoTitle);
   todoNode.appendChild(todoDesc);
+  todoNode.appendChild(todoPriority);
 
   return todoNode;
 };
