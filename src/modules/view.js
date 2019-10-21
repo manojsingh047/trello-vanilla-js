@@ -4,6 +4,7 @@ import { DEFAULT_TODOS } from "../store/todos";
 import * as todosService from "../services/todos.service";
 import * as dragService from "../services/drag.service";
 import * as AppEventEmitter from "./mediator";
+import { debounce } from "../services/debounce";
 const setupView = () => {
   todosService.postDefaultTodos(DEFAULT_TODOS);
   const appElement = document.getElementById("app");
@@ -24,11 +25,26 @@ const addEventListeners = () => {
     boards[i].addEventListener("dragover", dragService.onDragOver);
   }
 
+  const searchEle = document.getElementById("search-todo");
+  searchEle.addEventListener("keyup", getSearchValue);
+
   AppEventEmitter.on(
     AppEventEmitter.EVENTS.TODO_STATE_UPDATED,
     updateTodoStateDOM
   );
 };
+
+const getSearchValueMain = () => {
+  todosService.searchTodos(document.getElementById("search-todo").value);
+};
+
+/*Debouncing with closure */
+const getSearchValue = debounce(getSearchValueMain, 500);
+
+/*Crude debouncing */
+// const getSearchValue = () => {
+//   debounce(getSearchValueMain, 500);
+// };
 
 const updateTodoStateDOM = ({ todo, prevState, newState }) => {
   const prevBoardEle = document.querySelectorAll(
@@ -122,7 +138,12 @@ const getBoardNode = state => {
 };
 
 const getAppSkeleton = () => {
-  let skeletonStr = `<header></header><section class="boards-container">`;
+  let skeletonStr = `<header>
+    <input type='text' id='search-todo' placeholder='search'>
+    <h3>TRELLO CLONE VANILLA JS</h3>
+    <div></div>
+  </header>
+   <section class="boards-container">`;
 
   const boards = BOARDS.reduce((acc, board) => {
     const defaultClass = board.isDefault ? "default" : "";

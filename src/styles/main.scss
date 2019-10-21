@@ -14,7 +14,11 @@ body {
 }
 header {
   min-height: 50px;
+  text-align: center;
   border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 .boards-container {
   display: flex;
@@ -44,7 +48,7 @@ header {
     }
     .todos {
       overflow-y: auto;
-      max-height: 71vh;
+      max-height: 81vh;
     }
   }
 }

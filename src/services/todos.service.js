@@ -3,6 +3,7 @@ import { LOCAL_STORAGE_KEY, STATE_MAP, PRIOTITY_MAP } from "../store/config";
 import { todo } from "../model/todo";
 import { renderTodo } from "../modules/view";
 import * as AppEventEmitter from "../modules/mediator";
+import { debounce } from "./debounce";
 
 const getAllTodos = () => {
   const storageData = window.localStorage.getItem(LOCAL_STORAGE_KEY) || "";
@@ -93,8 +94,12 @@ const updateTodoState = ({ id, newState }) => {
   }
 
   const todo = todos.find(todo => todo.id === id);
-
+  if (!todo) {
+    return;
+  }
   localStorageService.postData(JSON.stringify(todos));
+
+  //emitting event
   AppEventEmitter.emit(AppEventEmitter.EVENTS.TODO_STATE_UPDATED, {
     todo,
     prevState,
@@ -102,10 +107,15 @@ const updateTodoState = ({ id, newState }) => {
   });
 };
 
+const searchTodos = value => {
+  console.log(value);
+};
+
 export {
   getAllTodos,
   getTodo,
   postDefaultTodos,
   todoFormSubmit,
-  updateTodoState
+  updateTodoState,
+  searchTodos
 };
