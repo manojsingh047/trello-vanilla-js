@@ -81,12 +81,17 @@ const todoFormSubmit = event => {
 const updateTodoState = ({ id, newState }) => {
   let prevState = "";
   const todos = getAllTodos().map(todo => {
-    if (todo.id === id) {
+    if (todo.id === parseInt(id)) {
       prevState = todo.state;
       todo.state = newState;
     }
     return todo;
   });
+
+  if (prevState === newState) {
+    return;
+  }
+
   const todo = todos.find(todo => todo.id === id);
 
   localStorageService.postData(JSON.stringify(todos));

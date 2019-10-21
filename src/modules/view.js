@@ -26,14 +26,25 @@ const addEventListeners = () => {
 
   AppEventEmitter.on(
     AppEventEmitter.EVENTS.TODO_STATE_UPDATED,
-    updateTodoState
+    updateTodoStateDOM
   );
 };
 
-const updateTodoState = ({ todo, prevState, newState }) => {
-  console.log(todo);
-  console.log(prevState);
-  console.log(newState);
+const updateTodoStateDOM = ({ todo, prevState, newState }) => {
+  const prevBoardEle = document.querySelectorAll(
+    `.board#${prevState} .todos .todo`
+  );
+
+  let todoEle;
+  for (let i = 0; i < prevBoardEle.length; i++) {
+    if (parseInt(prevBoardEle[i].id) === todo.id) {
+      todoEle = prevBoardEle[i];
+      break;
+    }
+  }
+  todoEle.remove();
+  const newBoardEle = document.querySelector(`.board#${newState} .todos`);
+  newBoardEle.appendChild(todoEle);
 };
 
 const renderForm = () => {
