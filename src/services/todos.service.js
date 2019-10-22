@@ -108,6 +108,7 @@ const updateTodoState = ({ id, newState }) => {
 };
 
 const searchTodos = value => {
+  value = value.toLowerCase();
   const todos = getAllTodos();
   let filtered = [];
   if (value.trim().length > 0) {
@@ -117,7 +118,7 @@ const searchTodos = value => {
   } else {
     filtered = todos;
   }
-  AppEventEmitter.emit(AppEventEmitter.EVENTS.RE_RENDER_TODOS, filtered);
+  AppEventEmitter.emit(AppEventEmitter.EVENTS.FILTER_TODOS, filtered);
 };
 
 export {

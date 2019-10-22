@@ -25,6 +25,7 @@ const addCustomEvents = () => {
   );
   AppEventEmitter.on(AppEventEmitter.EVENTS.RENDER_TODOS, renderTodos);
   AppEventEmitter.on(AppEventEmitter.EVENTS.RE_RENDER_TODOS, reRenderTodos);
+  AppEventEmitter.on(AppEventEmitter.EVENTS.FILTER_TODOS, filterTodosDOM);
 };
 
 const addEventListeners = () => {
@@ -89,6 +90,10 @@ const renderForm = () => {
   }
 };
 
+/**
+ *
+ * Poor function, takes a lot of process to re render all todos
+ */
 const reRenderTodos = todos => {
   const todosEle = document.querySelectorAll(".todos");
   for (let i = 0; i < todosEle.length; i++) {
@@ -98,6 +103,26 @@ const reRenderTodos = todos => {
   }
   console.log(todosEle);
   renderTodos(todos);
+};
+
+/**
+ *
+ * 1. looping through all todos dom nodes and filtering based on filterd nodes,
+ * 2. We could just loop over all todos and filter based on dom data, that would be O(n), but the limitation is if we don't have any field rendered on dom then we can't filter on that field.
+ *
+ */
+const filterTodosDOM = todos => {
+  const todosEle = document.querySelectorAll(".todo");
+
+  for (let i = 0; i < todosEle.length; i++) {
+    todosEle[i].style.display = "none";
+    for (let j = 0; j < todos.length; j++) {
+      if (todos[j].id === parseInt(todosEle[i].id)) {
+        todosEle[i].style.display = "block";
+        break;
+      }
+    }
+  }
 };
 
 const renderTodos = todos => {
