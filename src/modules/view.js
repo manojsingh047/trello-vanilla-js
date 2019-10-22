@@ -6,12 +6,25 @@ import * as dragService from "../services/drag.service";
 import * as AppEventEmitter from "./mediator";
 import { debounce } from "../services/debounce";
 const setupView = () => {
+  addCustomEvents();
   todosService.postDefaultTodos(DEFAULT_TODOS);
   const appElement = document.getElementById("app");
   appElement.innerHTML = getAppSkeleton();
-  renderDefaultTodos();
+  AppEventEmitter.emit(
+    AppEventEmitter.EVENTS.RENDER_TODOS,
+    todosService.getAllTodos()
+  );
   renderForm();
   addEventListeners();
+};
+
+const addCustomEvents = () => {
+  AppEventEmitter.on(
+    AppEventEmitter.EVENTS.TODO_STATE_UPDATED,
+    updateTodoStateDOM
+  );
+  AppEventEmitter.on(AppEventEmitter.EVENTS.RENDER_TODOS, renderTodos);
+  AppEventEmitter.on(AppEventEmitter.EVENTS.RE_RENDER_TODOS, reRenderTodos);
 };
 
 const addEventListeners = () => {
@@ -27,11 +40,6 @@ const addEventListeners = () => {
 
   const searchEle = document.getElementById("search-todo");
   searchEle.addEventListener("keyup", getSearchValue);
-
-  AppEventEmitter.on(
-    AppEventEmitter.EVENTS.TODO_STATE_UPDATED,
-    updateTodoStateDOM
-  );
 };
 
 const getSearchValueMain = () => {
@@ -81,8 +89,18 @@ const renderForm = () => {
   }
 };
 
-const renderDefaultTodos = () => {
-  const todos = todosService.getAllTodos();
+const reRenderTodos = todos => {
+  const todosEle = document.querySelectorAll(".todos");
+  for (let i = 0; i < todosEle.length; i++) {
+    while (todosEle[i].hasChildNodes()) {
+      todosEle[i].removeChild(todosEle[i].lastChild);
+    }
+  }
+  console.log(todosEle);
+  renderTodos(todos);
+};
+
+const renderTodos = todos => {
   todos.forEach(todo => {
     renderTodo(todo);
   });

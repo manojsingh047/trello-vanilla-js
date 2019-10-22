@@ -108,7 +108,16 @@ const updateTodoState = ({ id, newState }) => {
 };
 
 const searchTodos = value => {
-  console.log(value);
+  const todos = getAllTodos();
+  let filtered = [];
+  if (value.trim().length > 0) {
+    filtered = todos.filter(
+      todo => todo.title.includes(value) || todo.description.includes(value)
+    );
+  } else {
+    filtered = todos;
+  }
+  AppEventEmitter.emit(AppEventEmitter.EVENTS.RE_RENDER_TODOS, filtered);
 };
 
 export {
