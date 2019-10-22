@@ -19,6 +19,13 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  input {
+    border-radius: 4px;
+    outline: none;
+    padding: 0 0 0 6px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
 }
 .boards-container {
   display: flex;
