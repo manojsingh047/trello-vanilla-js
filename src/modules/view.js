@@ -46,6 +46,36 @@ const addEventListeners = () => {
 
   const searchEle = document.getElementById("search-todo");
   searchEle.addEventListener("keyup", getSearchValue);
+  const boardsContainerEle = document.querySelector(".boards-container");
+  //Event delegation implemented
+  boardsContainerEle.addEventListener("click", highlightTodosWithSamePriority);
+};
+
+//not an arrow function because arrow fns don't care about current this, they always refer to this of parent scope
+let selectedTodo;
+const highlightTodosWithSamePriority = function(event) {
+  //Event delegation implemented
+  //https://javascript.info/event-delegation
+
+  // The method elem.closest(selector) returns the nearest ancestor that matches the selector. In our case we look for <td> on the way up from the source element.
+  let todo = event.target.closest(".todo");
+  console.log(event);
+  if (!todo) {
+    return;
+  }
+
+  // In case of nested boardsContainerEle, event.target may be a todo lying outside of the current boardContainer. So we check if that’s actually our board container.
+  if (!this.contains(todo)) {
+    return;
+  }
+
+  if (selectedTodo) {
+    // remove the existing highlight if any
+    selectedTodo.style.background = "initial";
+  }
+  selectedTodo = todo;
+  selectedTodo.style.background =
+    "linear-gradient(45deg, #7b0a0a, transparent)"; // highlight the new todo
 };
 
 const getSearchValueMain = () => {
@@ -147,11 +177,11 @@ const createTodoNode = todo => {
   todoNode.className = "todo";
   todoNode.id = todo.id;
   todoNode.draggable = true;
-  // todoNode.addEventListener("dragstart", dragService.onDragStart);
 
   const todoId = document.createElement("h4");
   todoId.className = "todo-id";
   todoId.innerText = `# ${todo.id}`;
+  todoId.setAttribute("data-todo-id", "dummy");
 
   const todoTitle = document.createElement("h4");
   todoTitle.className = "todo-title";
