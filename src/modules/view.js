@@ -29,13 +29,13 @@ const addCustomEvents = () => {
 };
 
 const addEventListeners = () => {
+  // -- Poor assignment - to each todo
   // const todo = document.querySelectorAll(".todo");
   // for (let i = 0; i < todo.length; i++) {
   //   todo[i].addEventListener("dragstart", dragService.onDragStart);
   // }
-  // boards[i].addEventListener("click", dragService.clickHandler);
 
-  //better dragstart event assignment - not adding event handler to each todos
+  // -- better dragstart event assignment - not adding event handler to each todos
   //and draggable = true attribute is taking care of picking the correct element for dragging
   const boards = document.querySelectorAll(".board");
   for (let i = 0; i < boards.length; i++) {
