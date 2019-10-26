@@ -29,12 +29,17 @@ const addCustomEvents = () => {
 };
 
 const addEventListeners = () => {
-  const todo = document.querySelectorAll(".todo");
-  for (let i = 0; i < todo.length; i++) {
-    todo[i].addEventListener("dragstart", dragService.onDragStart);
-  }
+  // const todo = document.querySelectorAll(".todo");
+  // for (let i = 0; i < todo.length; i++) {
+  //   todo[i].addEventListener("dragstart", dragService.onDragStart);
+  // }
+  // boards[i].addEventListener("click", dragService.clickHandler);
+
+  //better dragstart event assignment - not adding event handler to each todos
+  //and draggable = true attribute is taking care of picking the correct element for dragging
   const boards = document.querySelectorAll(".board");
   for (let i = 0; i < boards.length; i++) {
+    boards[i].addEventListener("dragstart", dragService.onDragStart);
     boards[i].addEventListener("drop", dragService.onDrop);
     boards[i].addEventListener("dragover", dragService.onDragOver);
   }
@@ -142,7 +147,7 @@ const createTodoNode = todo => {
   todoNode.className = "todo";
   todoNode.id = todo.id;
   todoNode.draggable = true;
-  todoNode.addEventListener("dragstart", dragService.onDragStart);
+  // todoNode.addEventListener("dragstart", dragService.onDragStart);
 
   const todoId = document.createElement("h4");
   todoId.className = "todo-id";
