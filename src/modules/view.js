@@ -46,18 +46,20 @@ const addEventListeners = () => {
 
   const searchEle = document.getElementById("search-todo");
   searchEle.addEventListener("keyup", getSearchValue);
-  const boardsContainerEle = document.querySelector(".boards-container");
+
   //Event delegation implemented
-  boardsContainerEle.addEventListener("click", highlightTodosWithSamePriority);
+  const boardsContainerEle = document.querySelector(".boards-container");
+  boardsContainerEle.addEventListener("click", highlightClickedTodo);
 };
 
 //not an arrow function because arrow fns don't care about current this, they always refer to this of parent scope
 let selectedTodo;
-const highlightTodosWithSamePriority = function(event) {
+const highlightClickedTodo = function(event) {
   //Event delegation implemented
   //https://javascript.info/event-delegation
 
   // The method elem.closest(selector) returns the nearest ancestor that matches the selector. In our case we look for <td> on the way up from the source element.
+
   let todo = event.target.closest(".todo");
   console.log(event);
   if (!todo) {
