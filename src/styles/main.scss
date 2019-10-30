@@ -13,6 +13,7 @@ body {
   font-size: 1.2rem;
 }
 header {
+  background: #c5e4ff;
   min-height: 50px;
   text-align: center;
   border: 2px solid #000;
@@ -56,6 +57,8 @@ header {
     .todos {
       overflow-y: auto;
       max-height: 81vh;
+      background: #eaeaea;
+      cursor: grab;
     }
   }
 }
