@@ -49,7 +49,36 @@ const addEventListeners = () => {
 
   //Event delegation implemented
   const boardsContainerEle = document.querySelector(".boards-container");
-  boardsContainerEle.addEventListener("click", highlightClickedTodo);
+  // boardsContainerEle.addEventListener("click", highlightClickedTodo);
+  boardsContainerEle.addEventListener("click", highlightTodoWithSamePriority);
+};
+
+const highlightTodoWithSamePriority = function(event) {
+  const todo = event.target.closest(".todo");
+  if (!todo) {
+    return;
+  }
+  if (!this.contains(todo)) {
+    return;
+  }
+
+  const id = todo.id;
+  const allTodos = todosService.getAllTodos();
+  const priority = allTodos.find(todo => todo.id === parseInt(id)).priority;
+  const allTodosEle = document.querySelectorAll(".todo");
+
+  for (let i = 0; i < allTodosEle.length; i++) {
+    const todosEle = allTodosEle[i];
+    for (let j = 0; j < todosEle.children.length; j++) {
+      const child = todosEle.children[j];
+      console.log(child);
+      if (child.className === "todo-priority" && child.innerHTML === priority) {
+        todosEle.classList.add("highlighted-priority");
+      } else {
+        todosEle.classList.remove("highlighted-priority");
+      }
+    }
+  }
 };
 
 //not an arrow function because arrow fns don't care about current this, they always refer to this of parent scope
